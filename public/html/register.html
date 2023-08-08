@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="register(event)">
+        <input type="text" placeholder="enter your username" id="username"/></br>
+        <input type="email" placeholder="enter your useremail" id="useremail"/></br>
+        <input type="password" placeholder="enter your password" id="password"/></br>
+        <input type="submit" value="register"/>
+
+    </form>
+    <script>
+        async function register(event){
+            event.preventDefault();
+
+            let username = document.getElementById("username").value;
+            let useremail = document.getElementById("useremail").value;
+            let password = document.getElementById("password").value;
+
+            const data = await fetch('http://localhost:2001/api/v1/register_user',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json' ,
+                },
+                body: JSON.stringify({
+                    username,useremail,password
+                })
+            })
+
+            const response = await data.json();
+            console.log(response);
+            if(response.status == 200 ){
+                alert(response.message);
+            }else if(response.status == 400){
+                alert(response.message)
+            }else if(response.status == 500){
+                alert(response.message);
+            }
+        }
+    </script>
+</body>
+</html>
