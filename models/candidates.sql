@@ -13,3 +13,5 @@ INSERT INTO candidates (cname) VALUES ("candidate3");
 INSERT INTO candidates (cname) VALUES ("candidate4");
 
 
+
+
