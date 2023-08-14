@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="login(event)">
+        <input type="useremail" placeholder="enter your email" id="useremail"/></br>
+        <input type="password" placeholder="enter your password" id="password"/></br>
+        <input type="submit" value="login"/>
+    </form>
+    <script>
+        async function login(event){
+            event.preventDefault();
+
+            let useremail = document.getElementById("useremail").value;
+            let password = document.getElementById("password").value;
+
+            const data = await fetch('http://localhost:2001/api/v1/login', {
+
+                method : 'POST',
+                headers : {
+                    'Content-type': 'application/json'
+                },
+                body : JSON.stringify({
+                    useremail,password
+                })
+            })
+
+            let response = await data.json();
+            console.log(response)
+            if(response.status == 200){
+                alert(response.message);
+                window.location.href= "/api/v1/voting";
+            }
+            if(response.status == 400){
+                alert(response.message);
+            }
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="addVote(event)" id="candidateDetails">
+    
+    </form>
+
+    <script>
+
+        window.onload = async() =>{
+            let data = await fetch("http://localhost:2001/api/v1/get_candidates");
+            let div = document.getElementById("candidateDetails");
+            const response = await data.json();
+            console.log(response);
+            let candidateString = "";
+            for(let i=0;i<response.length;i++){
+                candidateString += `<label>${response[i].candidate_name}</label><input class="candidate" type="radio" name='candidate' value = ${response[i].candidate_name} /><br /><br />`
+            }
+
+            candidateString += `<input type='submit' value='vote' />`;
+
+            div.innerHTML = candidateString;
+        }
+
+
+        async function addVote(event){
+            event.preventDefault();
+
+            let candidateFetch = document.querySelectorAll(".candidate");
+            let candidate_name;
+            
+            for(let i=0;i<candidateFetch.length;i++){
+                if(candidateFetch[i].checked == true){
+                    candidate_name = candidateFetch[i].defaultValue;
+                }
+            }
+            console.log(candidate_name);
+ 
+ 
+            let data = await fetch('http://localhost:2001/api/v1/voting', {
+                method:'POST',
+                headers:{'Content-type':'application/json'},
+                body:JSON.stringify({
+                    candidate_name  
+                })
+            });
+
+            let response = await data.json();
+            if(response.status==200){
+                alert(response.message);
+
+            }
+            if(response.status ==400){
+                alert(response.message);
+            }
+        }
+    </script>
+</body>
+</html>

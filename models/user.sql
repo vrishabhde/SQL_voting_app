@@ -12,4 +12,7 @@ create table users(
     foreign key (candidateId) references candidates (candidateId)
 );
 
+
+
+
 INSERT INTO users (username,useremail, password) VALUES ("user1", "user1@123", "12457878");

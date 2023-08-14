@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form onsubmit="addcandidate(event)">
+        <input type="text" id="candidate_name" placeholder="enter candidate name" />
+        <input type="submit" value="add candidate" />
+    </form>
+    <script>
+        async function addcandidate(event) {
+            event.preventDefault();
+
+            let candidate_name = document.getElementById("candidate_name").value;
+
+            let data = await fetch('http://localhost:2001/api/v1/register_candidates', {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify({
+                    candidate_name
+                })
+
+            });
+
+            let response = await data.json();
+
+            if (response.status == 201) alert(response.message);
+            
+            if (response.status == 400) alert(response.message)
+        }
+    </script>
+</body>
+
+</html>
